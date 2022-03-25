@@ -1,0 +1,30 @@
+@{
+  Layout = "_Layout";
+}
+
+@using Bakery.ViewModels
+
+@model LoginViewModel
+
+
+<div class="row mt-5">
+  <div class="col-2">
+  </div>
+  <div class="col-8">
+    <h2>Log in with your account</h2>
+    <hr />
+    @using (Html.BeginForm())
+    {
+      @Html.LabelFor(m => m.Email)
+      @Html.TextBoxFor(m => m.Email, new { @class = "form-control required"})
+
+      @Html.LabelFor(m => m.Password)
+      @Html.PasswordFor(m => m.Password, new { @class = "form-control required"})
+
+      <input type="submit" value="Log in" class="btn btn-dark mt-2 mb-2" />
+    }
+    <p>@Html.ActionLink("Create Account", "Register", "Account")</p>
+      </div>
+  <div class="col-2">
+</div>
+</div>
