@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css">
+    <title>@ViewBag.PageTitle</title>
+  </head>
+  <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" style="color: rgb(255, 89, 0)" href="/">Pierre's</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Front Counter</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle"  id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">The Display</a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="/books">View All Books</a></li>
+              <li><a class="dropdown-item" href="/authors">View All Authors</a></li>
+            </ul>
+          </li>
+          @if (User.Identity.IsAuthenticated)
+            { 
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle"  id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Settings
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <li><a class="dropdown-item" href="/books/create">Add New Book</a></li>
+                  <li><a class="dropdown-item" href="/authors/create">Add New Author</a></li>
+                </ul>
+              </li>
+            }
+          <ul class="navbar-nav position-absolute end-0 mx-3 p-0" >
+            @if (User.Identity.IsAuthenticated)
+            {
+              <li class="navbar-brand " style="color: rgb(255, 89, 0)">@User.Identity.Name </li>
+              <li>
+                @using (Html.BeginForm("LogOff", "Account"))
+                {
+                  <input type="submit" class="btn btn-default" style="color: white" value="Log out" />
+                }
+              </li>
+            } else
+            {
+              <li>
+                <form action="/account/login">
+                  <button type="get" class="btn  btn-default" style="width: 5rem; color: white">Log In </button>
+                </form>
+              </li>
+              <li>
+                <form action="/account/register">
+                  <button class="btn  btn-default" style="width: 9rem; color: white">Create Account</button>
+                </form>
+              </li>
+            }
+          </ul>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container mt-2">
+
+    <div class="h-100 p-5 border rounded-3 text-center banner">
+      <h1>@ViewBag.PageTitle</h1>
+    </div>
+    @RenderBody() 
+  </div>
+  </body>
+</html>
+
+
+@* https://getbootstrap.com/docs/5.0/components/navbar/ *@
+
+@* https://getbootstrap.com/docs/5.0/examples/jumbotron/ *@
+
+@* https://getbootstrap.com/docs/4.0/utilities/colors/ *@
