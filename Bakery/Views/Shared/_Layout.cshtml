@@ -22,8 +22,8 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle"  id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">The Display</a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <li><a class="dropdown-item" href="/books">View All Books</a></li>
-              <li><a class="dropdown-item" href="/authors">View All Authors</a></li>
+              <li><a class="dropdown-item" href="/treats">View All Treats</a></li>
+              <li><a class="dropdown-item" href="/flavors">View All Flavors</a></li>
             </ul>
           </li>
           @if (User.Identity.IsAuthenticated)
@@ -33,8 +33,8 @@
                   Settings
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li><a class="dropdown-item" href="/books/create">Add New Book</a></li>
-                  <li><a class="dropdown-item" href="/authors/create">Add New Author</a></li>
+                  <li><a class="dropdown-item" href="/treats/create">Add New Treat</a></li>
+                  <li><a class="dropdown-item" href="/flavors/create">Add New Flavor</a></li>
                 </ul>
               </li>
             }

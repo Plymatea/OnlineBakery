@@ -1,0 +1,26 @@
+@{
+  Layout = "_Layout";
+}
+@using System;
+@model Bakery.Models.Treat;  
+
+
+
+
+<div class="row mt-5">
+  <div class="col-2">
+  </div>
+  <div class="col-8">
+  <h4>Add a scrumptious treat !</h4>
+  <hr class="px-5">
+    @using (Html.BeginForm())
+    {
+      @Html.LabelFor(m => Model.Name, "Treat Name: ")
+      @Html.TextBoxFor(m => Model.Name, new { @class = "form-control required"})
+      <input type="submit" value="Add New Treat" class="btn btn-dark mt-2">
+    }
+  </div>
+  <div class="col-2">
+</div>
+</div>
+<hr/>
