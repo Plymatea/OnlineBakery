@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 
-public class FlavorTreatView
+namespace Bakery.Models
 {
-    public Dictionary<string, string> dictionary { get; set; }
+	public class FlavorTreatViewModel
+	{
+		public IList<Flavor> Flavors { get; set; }
+		public IList<Treat> Treats { get; set; }
+	}
 }
