@@ -6,5 +6,7 @@ namespace Bakery.Models
 	{
 		public IList<Flavor> Flavors { get; set; }
 		public IList<Treat> Treats { get; set; }
+		public Flavor ThisFlavor { get; set; }
+		public Treat ThisTreat { get; set; }
 	}
 }

@@ -38,13 +38,30 @@ namespace Bakery.Controllers
       return RedirectToAction("Index", "Home");
     }
 
+    // public ActionResult Details(int id)
+    // {
+    //   var thistreat = _db.Treats
+    //     .Include(treat => treat.JoinEntities)
+    //     .ThenInclude(join => join.Flavor)
+    //     .FirstOrDefault(treat => treat.TreatId == id);
+    //   return View(thistreat);
+    // }
     public ActionResult Details(int id)
     {
+      var model = new FlavorTreatViewModel();
+      model.Flavors = new List<Flavor>();
+      var flavors = _db.Flavors;
       var thistreat = _db.Treats
         .Include(treat => treat.JoinEntities)
         .ThenInclude(join => join.Flavor)
         .FirstOrDefault(treat => treat.TreatId == id);
-      return View(thistreat);
+      model.ThisTreat = thistreat;
+      foreach (Flavor item in flavors)
+      {
+        model.Flavors.Add(item);
+      }
+
+      return View(model);
     }
 
     [Authorize]
@@ -77,7 +94,37 @@ namespace Bakery.Controllers
       var thistreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
       _db.Treats.Remove(thistreat);
       _db.SaveChanges();
-      return RedirectToAction("Index");
+      return RedirectToAction("Index", "Home");
+    }
+    
+    // [Authorize]
+    // public ActionResult AddTreat (int id)
+    // {
+    //   var thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
+    //   ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "Name");
+    //   return View(thisFlavor);
+    // }
+    
+    [Authorize]
+    [HttpPost]
+    public ActionResult AddTreat (Flavor flavor, int TreatId)
+    {
+      if (TreatId != 0)
+      {
+        _db.FlavorTreat.Add(new FlavorTreat() { TreatId = TreatId, FlavorId = flavor.FlavorId });
+        _db.SaveChanges();
+      }
+      return RedirectToAction("Details", new{ id = flavor.FlavorId});
+    }
+
+    [Authorize]
+    [HttpPost]
+    public ActionResult DeleteTreat(int joinId)
+    {
+      var joinEntry = _db.FlavorTreat.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
+      _db.FlavorTreat.Remove(joinEntry);
+      _db.SaveChanges();
+      return RedirectToAction("Details", "Flavors", new {id = joinEntry.FlavorId});
     }
   }
 }

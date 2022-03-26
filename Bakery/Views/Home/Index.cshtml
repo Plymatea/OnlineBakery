@@ -15,7 +15,8 @@
     <ul>
       @foreach(Treat item in Model.Treats)
       {
-        <li>@item.Name</li>
+        <li>@Html.ActionLink(item.Name, "Details", "Treats", new {id = item.TreatId})</li>
+  
       }
     </ul>
   </div>
@@ -31,7 +32,7 @@
     <ul>
       @foreach(Flavor item in Model.Flavors)
       {
-        <li>@item.Name</li>
+        <li>@Html.ActionLink(item.Name, "Details", "Flavor", new {id = item.FlavorId})</li>
       }
     </ul>
   </div>
