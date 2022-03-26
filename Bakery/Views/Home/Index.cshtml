@@ -1,24 +1,28 @@
 @{
   Layout = "_Layout";
 }
+@using Bakery.Models.Flavor;
+@model Dictionary<string, object>;  
 
-@using System.Collections.Generic;
-@model Bakery.Models.Flavor;  
+
+@* @model Bakery.Models.Flavor;   *@
 
 <h3>Mix and match any treats and flavors.</h3>
 <hr/>
 <div class="row">
   <div class="col-5">
-      <h4 style="text-align: center">Treats!</h4>
-  <hr class="px-5">
-
+    <h4 style="text-align: center">Treats!</h4>
+    <hr class="px-5">
+ @foreach(object item in Model["flavors"]) {
+  <p>@item</p>
+ }
   </div>
   <div class="col-2">
 
   </div>
   <div class="col-5">
-      <h4 style="text-align: center">Flavors!</h4>
-  <hr class="px-5">
+    <h4 style="text-align: center">Flavors!</h4>
+    <hr class="px-5">
 
   </div>
 </div>
