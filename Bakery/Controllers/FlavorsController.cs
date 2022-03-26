@@ -22,17 +22,6 @@ namespace Bakery.Controllers
       _userManager = userManager;
       _db = db;
     }
-
-    public async Task<IActionResult> Index(string searchString)
-    {
-    var flavors = from m in _db.Flavors
-                select m;
-      if (!String.IsNullOrEmpty(searchString))
-      {
-        flavors = flavors.Where(s => s.Name!.Contains(searchString));
-      }
-    return View(await flavors.ToListAsync());
-    }
   
     [Authorize]
     public ActionResult Create()

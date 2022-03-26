@@ -23,17 +23,6 @@ namespace Bakery.Controllers
       _db = db;
     }
 
-    public async Task<IActionResult> Index(string searchString)
-    {
-    var treats = from m in _db.Treats
-                select m;
-      if (!String.IsNullOrEmpty(searchString))
-      {
-        treats = treats.Where(s => s.Name!.Contains(searchString));
-      }
-    return View(await treats.ToListAsync());
-    }
-
     [Authorize]
     public ActionResult Create()
     {

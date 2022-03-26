@@ -39,6 +39,7 @@ namespace Bakery.Controllers
       {
         model.Treats.Add(item);
       }
+      ViewBag.PageTitle = "WELCOME";
       return View(model);
     }
   }
