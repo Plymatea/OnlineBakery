@@ -14,18 +14,18 @@
 } else
 {
   <h5>Flavors of this treat: </h5>
-    <ul>
-      @foreach(var join in Model.ThisTreat.JoinEntities)
-      {
-        @using (Html.BeginForm("DeleteFlavor", "Treats"))
-        {  
-          @Html.Hidden("joinId", @join.FlavorTreatId);
-          <li>@join.Flavor.Name || <input type="submit" value="Delete" style="font-size:.6em; padding:.25em" class="btn btn-xs btn-dark"/></li>
-        }
+  <ul>
+    @foreach(var join in Model.ThisTreat.JoinEntities)
+    {
+      @using (Html.BeginForm("DeleteFlavor", "Treats"))
+      {  
+        @Html.Hidden("joinId", @join.FlavorTreatId);
+        <li>@join.Flavor.Name || <input type="submit" value="Delete" style="font-size:.6em; padding:.25em" class="btn btn-xs btn-dark"/></li>
       }
-    </ul> 
+    }
+  </ul> 
 }
-</hr>
+<hr />
 <h5>Add flavor to this treat:</h5>
 
 @using (Html.BeginForm("AddFlavor", "Treats"))

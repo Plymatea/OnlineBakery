@@ -60,7 +60,6 @@ namespace Bakery.Controllers
         model.Flavors.Add(item);
         }
       }
-
       return View(model);
     }
 
@@ -103,7 +102,6 @@ namespace Bakery.Controllers
     {
       if (treatId != 0 && flavorId != 0)
       {
-        // FlavorTreat flavorTreats = _db
         _db.FlavorTreat.Add(new FlavorTreat() { TreatId = treatId, FlavorId = flavorId });
         _db.SaveChanges();
       }

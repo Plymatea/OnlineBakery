@@ -2,27 +2,41 @@
   Layout = "_Layout";
 }
 
-@model Bakery.Models.Flavor
+@using Bakery.Models;
+@model FlavorTreatViewModel; 
 
-<h2>@Model.Name Details</h2>
+<h2>@Model.ThisFlavor.Name Details</h2>
 <hr />
-<h3>Name: @Html.DisplayFor(model => model.Name)</h3>
-@if (Model.JoinEntities.Count == 0)
+<h3>Name: @Model.ThisFlavor.Name</h3>
+@if (Model.ThisFlavor.JoinEntities.Count == 0)
 {
   <p>This flavor hasn't been added to any treats yet.</p>
 } else
 {
   <h5>Treats with this flavor: </h5>
-    <ul>
-      @foreach(var join in Model.JoinEntities)
-      {
-        @using (Html.BeginForm("DeleteTreat", "Flavors"))
-        {  
-          @Html.Hidden("joinId", @join.FlavorTreatId);
-          <li>@join.Treat.Name || <input type="submit" value="Delete" style="font-size:.6em; padding:.25em" class="btn btn-xs btn-dark"/></li>
-        }
+  <ul>
+    @foreach(var join in Model.ThisFlavor.JoinEntities)
+    {
+      @using (Html.BeginForm("DeleteTreat", "Flavors"))
+      {  
+        @Html.Hidden("joinId", @join.FlavorTreatId);
+        <li>@join.Treat.Name || <input type="submit" value="Delete" style="font-size:.6em; padding:.25em" class="btn btn-xs btn-dark"/></li>
       }
-    </ul> 
+    }
+  </ul>
 }
-<p>@Html.ActionLink("Edit Flavor", "Edit", new { id = Model.FlavorId })</p>
-<p>@Html.ActionLink("Delete Flavor", "Delete", new { id = Model.FlavorId })</p>
+<hr />
+<h5>Add a treat to this flavor:</h5>
+
+@using (Html.BeginForm("AddTreat", "Flavors"))
+{
+  @Html.Hidden("flavorId", Model.ThisFlavor.FlavorId)
+
+  @Html.Label("Select Treat")
+  @Html.DropDownList("treatId", new SelectList(Model.Treats, "TreatId", "Name"), new { @class = "form-control"})
+
+  <input type="submit" value="Save" class="btn btn-dark mt-2"/>
+}
+
+<p>@Html.ActionLink("Edit Flavor", "Edit", new { id = Model.ThisFlavor.FlavorId })</p>
+<p>@Html.ActionLink("Delete Flavor", "Delete", new { id = Model.ThisFlavor.FlavorId })</p>

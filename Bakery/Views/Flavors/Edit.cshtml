@@ -2,18 +2,18 @@
   Layout = "_Layout";
 }
 
-@model Bakery.Models.Treat
+@model Bakery.Models.Flavor
 
 <h2>Edit</h2>
 
-<h4>Edit this treat's details: @Html.DisplayFor(model => model.Name)</h4>
+<h4>Edit this flavor's details: @Html.DisplayFor(model => model.Name)</h4>
 
 @using (Html.BeginForm())
 {
-  @Html.HiddenFor(model => model.TreatId)
+  @Html.HiddenFor(model => model.FlavorId)
 
   @Html.LabelFor(model => model.Name)
   @Html.EditorFor(model => model.Name)
 
-  <input type="submit" value="Save" />
+  <input type="submit" value="Save" class="btn btn-dark mt-2"/>
 }

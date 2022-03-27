@@ -32,7 +32,7 @@
     <ul>
       @foreach(Flavor item in Model.Flavors)
       {
-        <li>@Html.ActionLink(item.Name, "Details", "Flavor", new {id = item.FlavorId})</li>
+        <li>@Html.ActionLink(item.Name, "Details", "Flavors", new {id = item.FlavorId})</li>
       }
     </ul>
   </div>

@@ -39,13 +39,29 @@ namespace Bakery.Controllers
       return RedirectToAction("Index", "Home");
     }
 
-    public ActionResult Details (int id)
+    public ActionResult Details(int id)
     {
+      var model = new FlavorTreatViewModel();
+      model.Treats = new List<Treat>();
+      var treats = _db.Treats;
       var thisFlavor = _db.Flavors
         .Include(flavor => flavor.JoinEntities)
         .ThenInclude(join => join.Treat)
         .FirstOrDefault(flavor => flavor.FlavorId == id);
-      return View(thisFlavor);
+      model.ThisFlavor = thisFlavor;
+      List<int> thisFlavorTreatIds = new List<int>();
+      foreach (FlavorTreat item in thisFlavor.JoinEntities)
+      {
+        thisFlavorTreatIds.Add(item.TreatId);
+      }
+      foreach (Treat item in treats)
+      {
+        if (!thisFlavorTreatIds.Contains(item.TreatId))
+        {
+        model.Treats.Add(item);
+        }
+      }
+      return View(model);
     }
 
     [Authorize]
@@ -78,7 +94,7 @@ namespace Bakery.Controllers
       var thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
       _db.Flavors.Remove(thisFlavor);
       _db.SaveChanges();
-      return RedirectToAction("Index");
+      return RedirectToAction("Index", "Home");
     }
 
     [Authorize]
@@ -86,9 +102,10 @@ namespace Bakery.Controllers
     public ActionResult DeleteTreat(int joinId)
     {
       var joinEntry = _db.FlavorTreat.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
+      int id = joinEntry.FlavorId;
       _db.FlavorTreat.Remove(joinEntry);
       _db.SaveChanges();
-      return RedirectToAction("Details", "Flavors", new {id = joinEntry.FlavorId});
+      return RedirectToAction("Details", "Flavors", new {id = id});
     }
   }
 }
