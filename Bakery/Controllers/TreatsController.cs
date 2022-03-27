@@ -33,9 +33,15 @@ namespace Bakery.Controllers
     [HttpPost]
     public ActionResult Create(Treat treat)
     {
-      _db.Treats.Add(treat);
-      _db.SaveChanges();
-      return RedirectToAction("Index", "Home");
+      if (treat.Name != null)
+      {
+        _db.Treats.Add(treat);
+        _db.SaveChanges();
+        return RedirectToAction("Index", "Home");
+      } else
+      {
+        return RedirectToAction("Create");
+      }
     }
 
     public ActionResult Details(int id)
