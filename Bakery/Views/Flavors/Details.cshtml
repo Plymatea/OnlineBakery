@@ -20,11 +20,13 @@
       @using (Html.BeginForm("DeleteTreat", "Flavors"))
       {  
         @Html.Hidden("joinId", @join.FlavorTreatId);
-        <li>@join.Treat.Name || <input type="submit" value="Delete" style="font-size:.6em; padding:.25em" class="btn btn-xs btn-dark"/></li>
+        <li>@Html.ActionLink(join.Treat.Name, "Details", "Treats", new { id = join.Treat.TreatId }) || <input type="submit" value="Delete" style="font-size:.6em; padding:.25em" class="btn btn-xs btn-dark"/></li>
       }
     }
   </ul>
 }
+@if (User.Identity.IsAuthenticated)
+{
 <hr />
 <h5>Add a treat to this flavor:</h5>
 
@@ -40,3 +42,4 @@
 
 <p>@Html.ActionLink("Edit Flavor", "Edit", new { id = Model.ThisFlavor.FlavorId })</p>
 <p>@Html.ActionLink("Delete Flavor", "Delete", new { id = Model.ThisFlavor.FlavorId })</p>
+}

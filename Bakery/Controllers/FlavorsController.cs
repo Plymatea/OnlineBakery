@@ -26,6 +26,7 @@ namespace Bakery.Controllers
     [Authorize]
     public ActionResult Create()
     {
+      ViewBag.PageTitle = "CREATE YOUR ART";
       return View();
     }
 
@@ -46,6 +47,7 @@ namespace Bakery.Controllers
 
     public ActionResult Details(int id)
     {
+      ViewBag.PageTitle = "ALL THE DEETS";
       var model = new FlavorTreatViewModel();
       model.Treats = new List<Treat>();
       var treats = _db.Treats;
@@ -72,6 +74,7 @@ namespace Bakery.Controllers
     [Authorize]
     public ActionResult Edit (int id)
     {
+      ViewBag.PageTitle = "MISTAKES WERE MADE";
       var thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
       return View(thisFlavor);
     }
@@ -88,6 +91,7 @@ namespace Bakery.Controllers
     [Authorize]
     public ActionResult Delete(int id)
     {
+      ViewBag.PageTitle = "IRREVERSABLE";
       var thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
       return View(thisFlavor);
     }
@@ -101,16 +105,27 @@ namespace Bakery.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index", "Home");
     }
+    [Authorize]
+    [HttpPost]
+    public ActionResult AddTreat (int flavorId, int treatId)
+    {
+      if (treatId != 0 && flavorId != 0)
+      {
+        _db.FlavorTreat.Add(new FlavorTreat() { TreatId = treatId, FlavorId = flavorId });
+        _db.SaveChanges();
+      }
+      return RedirectToAction("Details", new{ id = flavorId});
+    }
 
     [Authorize]
     [HttpPost]
-    public ActionResult DeleteTreat(int joinId)
+    public ActionResult DeleteTreat (int joinId)
     {
       var joinEntry = _db.FlavorTreat.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
       int id = joinEntry.FlavorId;
       _db.FlavorTreat.Remove(joinEntry);
       _db.SaveChanges();
-      return RedirectToAction("Details", "Flavors", new {id = id});
+      return RedirectToAction("Details", new {id = id});
     }
   }
 }

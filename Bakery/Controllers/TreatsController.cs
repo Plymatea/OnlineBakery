@@ -26,6 +26,7 @@ namespace Bakery.Controllers
     [Authorize]
     public ActionResult Create()
     {
+      ViewBag.PageTitle = "CREATE YOUR ART";
       return View();
     }
 
@@ -46,6 +47,7 @@ namespace Bakery.Controllers
 
     public ActionResult Details(int id)
     {
+      ViewBag.PageTitle = "ALL THE DEETS";
       var model = new FlavorTreatViewModel();
       model.Flavors = new List<Flavor>();
       var flavors = _db.Flavors;
@@ -72,6 +74,7 @@ namespace Bakery.Controllers
     [Authorize]
     public ActionResult Edit(int id)
     {
+      ViewBag.PageTitle = "MISTAKES WERE MADE";
       var thistreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
       return View(thistreat);
     }
@@ -88,6 +91,7 @@ namespace Bakery.Controllers
     [Authorize]
     public ActionResult Delete(int id)
     {
+      ViewBag.PageTitle = "IRREVERSABLE";
       var thistreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
       return View(thistreat);
     }
