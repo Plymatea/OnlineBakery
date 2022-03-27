@@ -38,27 +38,27 @@ namespace Bakery.Controllers
       return RedirectToAction("Index", "Home");
     }
 
-    // public ActionResult Details(int id)
-    // {
-    //   var thistreat = _db.Treats
-    //     .Include(treat => treat.JoinEntities)
-    //     .ThenInclude(join => join.Flavor)
-    //     .FirstOrDefault(treat => treat.TreatId == id);
-    //   return View(thistreat);
-    // }
     public ActionResult Details(int id)
     {
       var model = new FlavorTreatViewModel();
       model.Flavors = new List<Flavor>();
       var flavors = _db.Flavors;
-      var thistreat = _db.Treats
+      var thisTreat = _db.Treats
         .Include(treat => treat.JoinEntities)
         .ThenInclude(join => join.Flavor)
         .FirstOrDefault(treat => treat.TreatId == id);
-      model.ThisTreat = thistreat;
+      model.ThisTreat = thisTreat;
+      List<int> thisTreatFlavorIds = new List<int>();
+      foreach (FlavorTreat item in thisTreat.JoinEntities)
+      {
+        thisTreatFlavorIds.Add(item.FlavorId);
+      }
       foreach (Flavor item in flavors)
       {
+        if (!thisTreatFlavorIds.Contains(item.FlavorId))
+        {
         model.Flavors.Add(item);
+        }
       }
 
       return View(model);
@@ -96,35 +96,29 @@ namespace Bakery.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index", "Home");
     }
-    
-    // [Authorize]
-    // public ActionResult AddTreat (int id)
-    // {
-    //   var thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
-    //   ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "Name");
-    //   return View(thisFlavor);
-    // }
-    
+        
     [Authorize]
     [HttpPost]
-    public ActionResult AddTreat (Flavor flavor, int TreatId)
+    public ActionResult AddFlavor (int flavorId, int treatId)
     {
-      if (TreatId != 0)
+      if (treatId != 0 && flavorId != 0)
       {
-        _db.FlavorTreat.Add(new FlavorTreat() { TreatId = TreatId, FlavorId = flavor.FlavorId });
+        // FlavorTreat flavorTreats = _db
+        _db.FlavorTreat.Add(new FlavorTreat() { TreatId = treatId, FlavorId = flavorId });
         _db.SaveChanges();
       }
-      return RedirectToAction("Details", new{ id = flavor.FlavorId});
+      return RedirectToAction("Details", new{ id = treatId});
     }
 
     [Authorize]
     [HttpPost]
-    public ActionResult DeleteTreat(int joinId)
+    public ActionResult DeleteFlavor(int joinId)
     {
       var joinEntry = _db.FlavorTreat.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
+      int id = joinEntry.TreatId;
       _db.FlavorTreat.Remove(joinEntry);
       _db.SaveChanges();
-      return RedirectToAction("Details", "Flavors", new {id = joinEntry.FlavorId});
+      return RedirectToAction("Details", new {id = id});
     }
   }
 }
